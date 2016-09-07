@@ -1,0 +1,43 @@
+<template>
+    <section class="au-animate">
+        <h2><i class="fa fa-users"></i> Member list</h2>
+
+        <div if.bind="!hasMembers" class="alert alert-danger" role="alert">
+            <h4><i class="fa fa-exclamation-triangle"></i> There are no members.</h4>
+            <p>There are no members, you should add one now.</p>
+            <p><a route-href="route: membership-application;" class="btn btn-danger btn" role="button"><i class="fa fa-user-plus"></i> New member</a></p>
+        </div>
+
+        <div if.bind="hasMembers" class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Last name</th>
+                        <th>First name</th>
+                        <th>Date of birth</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="member of members">
+                        <td>${member.membershipNumber}</td>
+                        <td><a route-href="route: members; params.bind: {id:member._id}">${member.lastName}</a></td>
+                        <td>${member.firstName}</td>
+                        <td>${member.dateOfBirth}</td>
+                        <td>${member.email}</td>
+                        <td>
+                            <a route-href="route: members; params.bind: {id:member._id}" class="btn btn-primary btn-xs" role="button"><i class="fa fa-edit"></i> Edit</a>
+                            <a route-href="route: payment-new; params.bind: {id:member._id}" class="btn btn-default btn-xs" role="button"><i class="fa fa-repeat"></i> Renew</a>
+                            <a route-href="route: payment-list; params.bind: {id:member._id}" class="btn btn-default btn-xs" role="button"><i class="fa fa-list"></i> Payments</a>
+                            <a route-href="route: duplicate-card; params.bind: {id:member._id}" class="btn btn-default btn-xs" role="button"><i class="fa fa-credit-card"></i> Duplicate card</a>
+                            <a route-href="route: life-membership; params.bind: {id:member._id}" class="btn btn-default btn-xs" role="button"><i class="fa fa-star-o"></i> Life membership</a>
+                            <a route-href="route: prepayment; params.bind: {id:member._id}" class="btn btn-default btn-xs" role="button"><i class="fa fa-forward"></i> Prepayment</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</template>

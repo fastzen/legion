@@ -1,0 +1,55 @@
+<template>
+  <div class="table-responsive" style="display: block;">
+      <table class="table table-condensed table-bordered">
+          <thead>
+              <tr>
+                  <th>Number of payments</th>
+                  <th>Payment for</th>
+                  <th>Year paid for</th>
+                  <th>Rate</th>
+                  <th>Amount remitted</th>
+              </tr>
+          </thead>
+          <tbody>
+        <tr repeat.for="payment of payments" >
+          <td>${ payment.paymentCount }</td>
+          <td>${ payment.paymentGroup }</td>
+          <td>${ payment.paymentYear }</td>
+          <td>${ payment.paymentRate }</td>
+          <td class="text-right">${ payment.paymentAmountRemitted }</td>
+        </tr>
+        <tr>
+          <td><strong>${transmittal.paymentsCount}</strong></td>
+          <td><strong>Total</strong> number of payments</td>
+          <td></td>
+          <td><label class="control-label" for="TotalAmount">Transmittal total</label></td>
+          <td class="text-right">${transmittal.transmittalTotal}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Credit available</td>
+          <td class="text-right">${transmittal.creditAvailable}</td>
+          <td>Deduct credit amount</td>
+          <td class="text-right">${transmittal.creditAmount}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Debit owing</td>
+            <td class="text-right">${transmittal.debitOwing}</td>
+            <td>Add debit amount</td>
+            <td class="text-right">${transmittal.debitAmount}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Cheque #</td>
+            <td>${transmittal.chequeNumber}</td>
+            <td>
+                <strong>Cheque total</strong>
+            </td>
+            <td class="text-right">
+                <strong>${ transmittal.chequeTotal }</strong>
+            </td>
+        </tr>
+      </table>
+    </div>
+</template>

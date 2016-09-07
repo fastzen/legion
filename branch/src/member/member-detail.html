@@ -1,0 +1,88 @@
+<template>
+    <section class="au-animate">
+        <h2>${heading} <small>${inputFirstName.value} ${inputLastName.value}</small></h2>
+        <a route-href="route: payment-list; params.bind: {id:person._id}" class="btn btn-default" role="button"><i class="fa fa-th-list"></i> View payments</a>
+        <form role="form" submit.delegate="save()" validate.bind="validation" >
+            <div class="row">
+                <div class="col-md-2 form-group" id="groupTitle">
+                    <label class="control-label" for="title">Title</label><br>
+                    <label repeat.for="title of titles" class="radio-inline">
+                      <input type="radio" name="title" value.bind="title" checked.bind="$parent.person.title" />
+                      ${title}
+                    </label>
+                </div>
+                <div class="col-md-4 form-group" id="groupLastName">
+                    <label class="control-label" for="lastName">Surname</label>
+                    <input value.bind="person.lastName" type="text" class="form-control" id="lastName" placeholder="Surname" ref="inputLastName">
+                </div>
+                <div class="col-md-4 form-group" id="groupFirstName">
+                    <label class="control-label" for="firstName">Given names</label>
+                    <input value.bind="person.firstName" type="text" class="form-control" id="firstName" placeholder="Given names" ref="inputFirstName">
+                </div>
+                <div class="col-md-2 form-group" id="groupMembershipNumber">
+                    <label class="control-label" for="membershipNumber">Membership number</label><br>
+                    <input value.bind="person.membershipNumber" type="text" class="form-control" id="membershipNumber" placeholder="Membership Number" ref="inputMembershipNumber">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group" id="groupStreet">
+                    <label class="control-label" for="street">Street</label>
+                    <input value.bind="person.street" type="text" class="form-control" id="street" placeholder="Street / PO Box / RR # / Site #">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupCity">
+                    <label class="control-label" for="city">City</label>
+                    <input value.bind="person.city" type="text" class="form-control" id="city" placeholder="City">
+                </div>
+                <div class="col-md-4 form-group" id="groupProvince">
+                    <label class="control-label" for="province">Province</label>
+                    <input value.bind="person.province" type="text" class="form-control" id="province" placeholder="Province">
+                </div>
+                <div class="col-md-4 form-group" id="groupPostalCode">
+                    <label class="control-label" for="postalCode">Postal code</label>
+                    <input value.bind="person.postalCode" type="text" class="form-control" id="postalCode" placeholder="Postal code">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupHomePhone">
+                    <label class="control-label" for="homePhone">Home phone</label>
+                    <input value.bind="person.homePhone" type="tel" class="form-control" id="homePhone" placeholder="Home phone">
+                </div>
+                <div class="col-md-4 form-group" id="groupOtherPhone">
+                    <label class="control-label" for="otherPhone">Other phone</label>
+                    <input value.bind="person.otherPhone" type="tel" class="form-control" id="otherPhone" placeholder="Other phone">
+                </div>
+                <div class="col-md-4 form-group" id="groupEmail">
+                    <label class="control-label" for="email">Email</label>
+                    <input value.bind="person.email" type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupDateOfBirth">
+                    <label class="control-label" for="dateOfBirth">Date of birth</label>
+                    <input value.bind="person.dateOfBirth" type="date" class="form-control" id="dateOfBirth">
+                </div>
+                <div class="col-md-4 form-group" id="groupCitizenship">
+                    <label class="control-label" for="citizenship">Citizenship</label>
+                    <select value.bind="person.citizenship" class="form-control">
+                        <option>Select A Country</option>
+                        <option repeat.for="country of countries" value.bind="country">${country}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group" id="groupGender">
+                    <label class="control-label" for="Gender">Gender</label><br>
+                    <label repeat.for="gender of genders" class="radio-inline">
+                      <input type="radio" value.bind="gender" name="gender" checked.bind="$parent.person.gender" />
+                      ${gender}
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <button type="submit" class="btn btn-default" disabled.bind="validation.isValidating">Submit</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</template>

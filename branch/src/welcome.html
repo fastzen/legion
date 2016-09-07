@@ -1,0 +1,20 @@
+<template>
+  <section class="au-animate">
+    <h2>${heading}</h2>
+
+    <div class="list-group">
+      <a route-href="route: branch-edit;" class="list-group-item">
+        <h4 class="list-group-item-heading"><i class="fa fa-home"></i> Branch information</h4>
+        <p class="list-group-item-text">Some basic information about your branch is needed before we get started.</p>
+      </a>
+      <a route-href="route: rate-edit;" class="list-group-item">
+        <h4 class="list-group-item-heading"><i class="fa fa-dollar"></i> Payment rates</h4>
+        <p class="list-group-item-text">The amount each member has to pay for a subscription needs to be entered.</p>
+      </a>
+      <a route-href="route: membership-application;" class="list-group-item">
+        <h4 class="list-group-item-heading"><i class="fa fa-user-plus"></i> Start adding members</h4>
+        <p class="list-group-item-text">You're good to go!</p>
+      </a>
+    </div>
+  </section>
+</template>

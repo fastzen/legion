@@ -1,0 +1,97 @@
+<template>
+    <section>
+        <h2><i class="fa fa-home"></i> ${heading}<small> ${branch.city}</small></h2>
+        <div if.bind="branchSet" class="alert alert-danger" role="alert">
+            <h4>The branch has already been set.</h4>
+            <p>But you can still alter the branch information.</p>
+            <p>
+                <a route-href="route: branch-edit;" class="btn btn-danger btn" role="button"><i class="fa fa-plus-home"></i> Edit branch</a>
+            </p>
+        </div>
+        <div if.bind="!branchSet" class="row">
+            <form role="form" submit.delegate="save()" class="form-horizontal">
+                <input value.bind="branch.commandNumber" type="hidden" class="form-control" id="commandNumber">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="commandNumber">Command</label>
+                    <div class="col-sm-10">
+                        <select value.bind="branch.commandNumber" change.delegate="commandChange()" id="commandNumber" class="form-control">
+                            <option value="">Select a Command</option>
+                            <option repeat.for="command of commands" value.bind="command.commandNumber">${command.name}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="branchNumber">Branch</label>
+                    <div class="col-sm-10">
+                        <select value.bind="branch" change.delegate="branchChange()" id="branchNumber" class="form-control">
+                            <option repeat.for="branchChoice of branches" model.bind="branchChoice">${branchChoice.branchNumber} - ${branchChoice.name}</option>
+                        </select>
+                    </div>
+                </div>
+                <div if.bind="showBranch">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="street">Street
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.address" type="text" class="form-control" id="street" placeholder="Street">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="city">City
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.city" type="text" class="form-control" id="city" placeholder="City">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="province">Province
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.province" type="text" class="form-control" id="province" placeholder="Province">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="postalCode">Postal Code
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.postalCode" type="text" class="form-control" id="postalCode" placeholder="Postal Code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="country">Country
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.country" type="text" class="form-control" id="country" placeholder="Country">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="phone">Phone
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.phone" type="text" class="form-control" id="phone" placeholder="Phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email">Email
+                            <br>
+                        </label>
+                        <div class="col-sm-10">
+                            <input value.bind="branch.email" type="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="  col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Save</button>
+                        </div>
+                    </div>
+                </div><!-- /showBranch -->
+            </form>
+        </div>
+    </section>
+</template>

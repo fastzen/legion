@@ -1,0 +1,208 @@
+<template>
+    <section class="au-animate">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 sidebar">
+                    <form role="form" class="form-horizontal" submit.delegate="save()" validate.bind="validation" >
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="transmittalDate">Transmittal date</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input value.bind="transmittal.transmittalDate" type="date" class="form-control" id="transmittalDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="totalNumberOfPayments">Total number of payments</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <p class="form-control-static" id="totalNumberOfPayments">${transmittal.paymentsCount}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="transmittalTotal">Transmittal total</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input value.bind="transmittal.transmittalTotal" type="number" class="form-control text-right" id="transmittalTotal" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="creditAvailable">Credit available
+                                <br>
+                            </label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input value.bind="transmittal.creditAvailable" type="number" class="form-control text-right" id="creditAvailable" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="debitOwing">Debit owing</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input value.bind="transmittal.debitOwing" type="number" class="form-control text-right" id="debitOwing" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="creditAmounts">Deduct credit amount</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input value.bind="transmittal.creditAmount" change.delegate="updateChequeTotal()" type="number" class="form-control text-right" id="creditAmount" min="0" max="${ transmittal.creditAvailable }" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="debitAmount">Add debit amount</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input value.bind="transmittal.debitAmount" change.delegate="updateChequeTotal()" type="number" class="form-control text-right" id="debitAmount" min="0" max="${ transmittal.debitOwing }" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="chequeTotal">Cheque total</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input value.bind="transmittal.chequeTotal" type="number" class="form-control text-right" id="chequeTotal" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" for="chequeNumber">Cheque #</label>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input value.bind="transmittal.chequeNumber" type="text" class="form-control" id="chequeNumber" placeholder="Cheque #">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="  col-sm-offset-6 col-sm-6">
+                                <div class=" ">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 main">
+                    <h2 class="page-header"><i class="fa fa-send"></i> Edit transmittal</h2>
+                    <div show.bind="hasFlash" class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> No payments are awaiting transmittal.</div>
+                    <div>
+                        <p><button class="btn collapsed btn-info" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">More details >></button></p>
+                        <div class="collapse" id="collapseExample">
+                            <div class="well">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="transmittalReference">Your transmittal reference</label>
+                                        <div class="col-sm-8">
+                                            <div class="">
+                                                <input value.bind="transmittal.transmittalReference" type="text" class="form-control" id="transmittalReference" placeholder="Your reference">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="transmittalNumber">Transmittal number</label>
+                                        <div class="col-sm-8">
+                                            <div class="">
+                                                <input value.bind="transmittal.transmittalNumber" type="text" class="form-control" id="transmittalNumber" placeholder="Command transmittal number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="returnDate">Return date</label>
+                                        <div class="col-sm-8">
+                                            <div class="">
+                                                <input value.bind="transmittal.returnDate" type="date" class="form-control" id="returnDate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="notes">Notes</label>
+                                        <div class="col-sm-8">
+                                            <div class="">
+                                                <textarea value.bind="transmittal.Notes" class="form-control" rows="3" id="notes"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Payments</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Select payments to include on this transmittal</p>
+                        </div>
+                        <!-- Table -->
+                        <div class="table-responsive" style="display: block;">
+                            <require from='transmittal/transmittal-payments'></require>
+                            <transmittal-payments payments.bind="payments" transmittal.bind="transmittal"></transmittal-payments>
+                        </div>
+                    </div>
+                    <!-- /.panel -->
+                    <hr>
+                    <div class="panel panel-primary">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Branch transmittal form</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Month</th>
+                                        <th>Year</th>
+                                        <th>Command</th>
+                                        <th>Branch #</th>
+                                        <th>Branch name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${ transmittal.getTransmittalDay() }</td>
+                                        <td>${ transmittal.getTransmittalMonth() }</td>
+                                        <td>${ transmittal.getTransmittalYear() }</td>
+                                        <td>${ transmittal.commandNumber }</td>
+                                        <td>${ transmittal.branchNumber }</td>
+                                        <td>${ transmittal.branchName }</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-body">
+                            <p></p>
+                        </div>
+                        <require from='transmittal/transmittal-totals'></require>
+                        <transmittal-totals transmittal.bind="transmittal" payments.bind="payments" paymentTypes.bind="paymentTypes"></transmittal-totals>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

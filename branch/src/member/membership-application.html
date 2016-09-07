@@ -1,0 +1,299 @@
+<template>
+    <section class="au-animate">
+        <h2><i class="fa fa-user-plus"></i> ${heading} <small>${inputFirstName.value} ${inputLastName.value}</small></h2>
+        <form role="form" submit.delegate="save()" validate.bind="validation" >
+            <div class="row">
+                <div class="col-md-2 form-group" id="groupTitle">
+                    <label class="control-label" for="title">Title</label><br>
+                    <label repeat.for="title of titles" class="radio-inline">
+                      <input type="radio" name="title" value.bind="title" checked.bind="$parent.person.title" />
+                      ${title}
+                    </label>
+                </div>
+                <div class="col-md-5 form-group" id="groupLastName">
+                    <label class="control-label" for="lastName">Surname</label>
+                    <input value.bind="person.lastName" type="text" class="form-control" id="lastName" placeholder="Surname" ref="inputLastName">
+                </div>
+                <div class="col-md-5 form-group" id="groupFirstName">
+                    <label class="control-label" for="firstName">Given names</label>
+                    <input value.bind="person.firstName" type="text" class="form-control" id="firstName" placeholder="Given names" ref="inputFirstName">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group" id="groupStreet">
+                    <label class="control-label" for="street">Street</label>
+                    <input value.bind="person.street" type="text" class="form-control" id="street" placeholder="Street / PO Box / RR # / Site #">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupCity">
+                    <label class="control-label" for="city">City</label>
+                    <input value.bind="person.city" type="text" class="form-control" id="city" placeholder="City">
+                </div>
+                <div class="col-md-4 form-group" id="groupProvince">
+                    <label class="control-label" for="province">Province</label>
+                    <input value.bind="person.province" type="text" class="form-control" id="province" placeholder="Province">
+                </div>
+                <div class="col-md-4 form-group" id="groupPostalCode">
+                    <label class="control-label" for="postalCode">Postal code</label>
+                    <input value.bind="person.postalCode" type="text" class="form-control" id="postalCode" placeholder="Postal code">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupHomePhone">
+                    <label class="control-label" for="homePhone">Home phone</label>
+                    <input value.bind="person.homePhone" type="tel" class="form-control" id="homePhone" placeholder="Home phone">
+                </div>
+                <div class="col-md-4 form-group" id="groupOtherPhone">
+                    <label class="control-label" for="otherPhone">Other phone</label>
+                    <input value.bind="person.otherPhone" type="tel" class="form-control" id="otherPhone" placeholder="Other phone">
+                </div>
+                <div class="col-md-4 form-group" id="groupEmail">
+                    <label class="control-label" for="email">Email</label>
+                    <input value.bind="person.email" type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupDateOfBirth">
+                    <label class="control-label" for="dateOfBirth">Date of birth</label>
+                    <input value.bind="person.dateOfBirth" type="date" class="form-control" id="dateOfBirth">
+                </div>
+                <div class="col-md-4 form-group" id="groupCitizenship">
+                    <label class="control-label" for="citizenship">Citizenship</label>
+                    <select value.bind="person.citizenship" class="form-control">
+                        <option>Select a country</option>
+                        <option repeat.for="country of countries" value.bind="country">${country}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group" id="groupGender">
+                    <label class="control-label" for="gender">Gender</label><br>
+                    <label repeat.for="gender of genders" class="radio-inline">
+                      <input type="radio" value.bind="gender" name="gender" checked.bind="$parent.person.gender" />
+                      ${gender}
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group" id="groupPreviousMember">
+                    <label class="control-label" for="gender">Have you ever been a member of the Legion?</label><br>
+                    <label class="radio-inline">
+                        <input type="radio" name="previousMember" model.bind="true" checked.bind="person.previousMember" id="previousMemberYes">Yes
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="previousMember" model.bind="false" checked.bind="person.previousMember" id="previousMemberNo">No
+                    </label>
+                </div>
+                <div class="col-md-4 form-group" id="groupPreviousMemberNumber" show.bind="person.previousMember">
+                    <label class="control-label crsa-selected" for="gender">If yes, Membership #</label>
+                    <input value.bind="person.previousMemberNumber" type="text" class="form-control" placeholder="Membership number" id="previousMemberNumber">
+                </div>
+            </div>
+
+            <!-- /MembershipType -->
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Membership Type</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-12 form-group" id="groupMembershipType">
+                            <label repeat.for="membershipType of membershipTypes" class="radio-inline">
+                              <input type="radio" value.bind="membershipType" name="membershipType" checked.bind="$parent.person.membershipType" />
+                              ${membershipType}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div if.bind="isOrdinaryMember" class="row">
+
+                        <!-- Ordinary member -->
+                        <div class="col-md-12 form-group" id="groupOrdinaryMember">
+
+                            <div class="row">
+                                <div class="col-md-4 form-group" id="groupServiceNumber">
+                                    <label class="control-label" for="ServiceNumber">Service #</label>
+                                    <input value.bind="person.ServiceNumber" type="text" class="form-control" placeholder="Service number" id="ServiceNumber">
+                                </div>
+                                <div class="col-md-8 form-group">
+                                </div>
+                            </div>
+                            <label class="control-label" for="serviceType">Service type</label><br>
+                            <div class="row">
+                                <div repeat.for="serviceType of serviceTypes" class="col-md-3 checkbox">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" value.bind="serviceType" checked.bind="person.serviceTypes" />
+                                      ${serviceType}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div if.bind="isAssociateMember" class="row">
+
+                        <!-- Associate member -->
+                        <div class="col-md-12 form-group" id="groupAssociateMember">
+
+                            <div class="row">
+                                <div class="col-md-12 form-group" id="groupAssociateMemberType">
+                                    <label class="control-label" for="AssociateMemberType">Associate member type</label><br>
+                                    <label repeat.for="associateMemberType of associateMemberTypes" class="radio-inline">
+                                      <input type="radio" value.bind="associateMemberType" name="associateMemberType" checked.bind="$parent.person.associateMemberType" />
+                                      ${associateMemberType}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div show.bind="isAssociateMemberTypeOrdinary" class="row">
+
+                                <!-- Associate member Ordinary member relation -->
+                                <div class="col-md-12 form-group" id="groupAssociateMemberTypeOrdinary">
+
+                                    <p>I am the parent, spouse, widow/er, child, grandchild, sibling, niece/nephew of a person who is/was eligible for Ordinary membership.</p>
+                                    <div class="row">
+                                        <div class="col-md-4 form-group" id="groupAssociateOrdinaryMemberRelationship">
+                                            <label class="control-label" for="associateOrdinaryMemberRelationship">Ordinary member relationship</label>
+                                            <input value.bind="person.associateOrdinaryMemberRelationship" type="text" class="form-control" placeholder="Ordinary member relationship" id="associateOrdinaryMemberRelationship">
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div show.bind="isAssociateMemberTypeAssociate" class="row">
+
+                                <!-- Associate member Associate member relation -->
+                                <div class="col-md-12 form-group" id="groupAssociateMemberTypeAssociate">
+
+                                    <p>I am the child, spouse, parent, sibling of an Associate member.</p>
+                                    <div class="row">
+                                        <div class="col-md-4 form-group" id="groupAssociateAssociateMemberBranch">
+                                            <label class="control-label" for="associateAssociateMemberBranch">Associate member Command/Branch #</label>
+                                            <input value.bind="person.associateAssociateMemberBranch" type="text" class="form-control" placeholder="Ordinary member relationship" id="associateAssociateMemberBranch">
+                                        </div>
+                                        <div class="col-md-4 form-group" id="groupAssociateAssociateMemberName">
+                                            <label class="control-label" for="associateAssociateMemberName">Associate member name </label>
+                                            <input value.bind="person.associateAssociateMemberName" type="text" class="form-control" placeholder="Ordinary member relationship" id="associateAssociateMemberName">
+                                        </div>
+                                        <div class="col-md-4 form-group" id="groupAssociateAssociateMemberNumber">
+                                            <label class="control-label" for="associateAssociateMemberNumber">Associate member membership #</label>
+                                            <input value.bind="person.associateAssociateMemberNumber" type="text" class="form-control" placeholder="Ordinary member relationship" id="associateAssociateMemberNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div show.bind="isAssociateMemberTypeService" class="row">
+
+                                <!-- Associate member service -->
+                                <div class="col-md-12 form-group" id="groupAssociateMemberTypeService">
+
+                                    <div class="row">
+                                        <div class="col-md-4 form-group" id="groupAssociateServiceNumber">
+                                            <label class="control-label" for="associateServiceNumber">Service #</label>
+                                            <input value.bind="person.associateServiceNumber" type="text" class="form-control" placeholder="Service number" id="associateServiceNumber">
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                        </div>
+                                    </div>
+                                    <label class="control-label" for="associateServiceType">Service type</label><br>
+                                    <div class="row">
+                                        <div repeat.for="associateServiceType of associateServiceTypes" class="col-md-3 checkbox">
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value.bind="associateServiceType" checked.bind="person.associateServiceTypes" />
+                                              ${associateServiceType}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div if.bind="isAffiliateVotingMember" class="row">
+                        <!-- Affiliate Voting member -->
+                        <div class="col-md-12 form-group" id="groupAffiliateVotingMember">
+                            <p>I am a Canadian citizen or Commonwealth subject from an Allied nation and support the aims and objects of The Royal Canadian Legion.</p>
+                        </div>
+                    </div>
+
+                    <div if.bind="isAffiliateNonVotingMember" class="row">
+                        <!-- Affiliate Non Voting member -->
+                        <div class="col-md-12 form-group" id="groupAffiliateNonVotingMember">
+                            <p>I am a non-Canadian citizen or a non-Commonwealth subject from an Allied nation and support the aims and objects of The Royal Canadian Legion.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /MembershipType -->
+
+            <div class="row">
+                <div class="col-md-12 form-group" id="groupMagazine">
+                    <h4>LEGION Magazine Payment</h4>
+                    <p>Membership dues include a one-year payment rate of $9.96 per year (including HST) to LEGION Magazine. PE $10.82, ON, NB and NL pay $10.72, and NS pays $10.91 per year.</p>
+                    <label repeat.for="magazineOption of magazineOptions" class="radio-inline">
+                      <input type="radio" name="magazine" value.bind="magazineOption" checked.bind="$parent.magazine" />
+                      ${magazineOption}
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 form-group" id="groupPermission">
+                    <h4>Permission to Release Information for RCL Member Benefits Package</h4>
+                    <p>Dominion Command, The Royal Canadian Legion, does not rent or sell the names of members to any organization or advertiser. On occasion, Dominion Command may provide a Partner in the Member Benefits Package program with members’ name and addresses to advise them of products and services being offered. Please indicate whether you consent to this procedure:</p>
+                    <label class="radio-inline"><input type="radio" name="permission" model.bind="true" checked.bind="permissionToReleaseInformation" class="radio-inline"/>Yes</label>
+                    <label class="radio-inline"><input type="radio" name="permission" model.bind="false" checked.bind="permissionToReleaseInformation" class="radio-inline"/>No</label>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Payment</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2 form-group" id="groupPaymentType">
+                            <label class="control-label" for="payment.paymentType">Payment Type</label>
+                            <select change.delegate="paymentTypeChanged()" value.bind="payment.paymentType" class="form-control">
+                                <option repeat.for="paymentType of paymentTypes" value.bind="paymentType.paymentType">${paymentType.paymentType}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group" id="groupYearPaid">
+                            <label class="control-label" for="payment.yearPaid">Year paid</label>
+                            <input change.delegate="yearPaidChanged()" value.bind="payment.yearPaid" type="number" class="form-control" id="YearPaid">
+                        </div>
+                        <div class="col-md-2 form-group" id="groupDatePaid">
+                            <label class="control-label" for="payment.datePaid">Date paid</label>
+                            <input value.bind="payment.datePaid" type="date" class="form-control" id="datePaid">
+                        </div>
+                        <div class="col-md-2 form-group" id="groupAmountPaid">
+                            <label class="control-label" for="payment.amountPaid">Amount paid</label>
+                            <div class="input-group">
+                              <div class="input-group-addon">$</div>
+                              <input value.bind="payment.amountPaid" type="text" class="form-control" id="amountPaid" placeholder="Amount">
+                            </div>
+                        </div>
+                        <input value.bind="payment.numberOfYears" type="hidden" class="form-control" id="numberOfYears">
+                        <div class="col-md-2 form-group" id="groupReceiptNumber">
+                            <label class="control-label" for="payment.receiptNumber">Receipt number</label>
+                            <input value.bind="payment.receiptNumber" type="text" class="form-control" id="receiptNumber" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <button type="submit" class="btn btn-default" disabled.bind="validation.isValidating">Submit</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</template>

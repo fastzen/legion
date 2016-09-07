@@ -1,0 +1,59 @@
+<template>
+    <section class="au-animate">
+        <h2><i class="fa fa-dollar"></i> ${heading}</h2>
+        <div show.bind="!hasBranchRates" class="alert alert-danger" role="alert">
+            <h4><i class="fa fa-exclamation-triangle"></i> No branch rates.</h4>
+            <p>There are no branch payment rates defined yet. You should add them now.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-group" id="yearsArrayGroup">
+                <label class="control-label" for="yearsArray">Set rates for</label>
+                <select value.bind="selectedYear" change.delegate="yearChanged()" class="form-control">
+                    <option>Select a year</option>
+                    <option repeat.for="year of yearsArray" value.bind="year">${year}</option>
+                </select>
+            </div>
+        </div>
+
+        <form class="form-inline" role="form" submit.delegate="save()" validate.bind="validation" >
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label class="control-label" for="paymentType">Payment type</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label class="control-label" for="commandPaymentAmount">Command amount</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label class="control-label" for="branchPaymentAmount">Branch amount</label>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;" repeat.for="branchRate of viewPaymentRates.rates">
+                <div class="col-md-3 form-group" id="groupPaymentType">
+                    <input value.bind="branchRate.paymentType" type="text" class="form-control" id="branchRate" readonly>
+                </div>
+                <div class="col-md-3 form-group" id="groupCommandPaymentAmount">
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input value.bind="branchRate.commandAmount | currencyFormat" type="text" class="form-control" id="commandPaymentAmount" readonly>
+                    </div>
+                </div>
+                <div class="col-md-3 form-group" id="groupBranchPaymentAmount">
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input value.bind="branchRate.amount | currencyFormat" type="text" class="form-control" id="branchPaymentAmount">
+                    </div>
+                </div>
+                <input value.bind="branchRate.initialOffering" type="hidden" id="initialOffering">
+                <input value.bind="branchRate.yearOffset" type="hidden" id="yearOffset">
+            </div>
+            <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+                <div class="col-md-12 form-group">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+        </form>
+
+
+    </section>
+</template>

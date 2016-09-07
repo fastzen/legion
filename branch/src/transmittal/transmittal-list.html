@@ -1,0 +1,38 @@
+<template>
+    <section class="au-animate">
+        <h2><i class="fa fa-send"></i> ${heading}</h2>
+        <div if.bind="!hasTransmittals">
+            <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i> There are no transmittals yet. You could add one now.</div>
+            <a route-href="route: transmittal-new;" class="btn btn-primary btn" role="button"><i class="fa fa-plus-circle"></i> New transmittal</a>
+        </div>
+        <div if.bind="hasTransmittals" class="table-responsive">
+            <table class="table table-striped table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th class="text-center">Transmittal Date</th>
+                        <th class="text-right">Transmittal Total</th>
+                        <th class="text-right">Cheque Total</th>
+                        <th class="text-center">Cheque Number</th>
+                        <th class="text-center">Return Date</th>
+                        <th class="text-center">Transmittal Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="transmittal of transmittals">
+                        <td class="text-center"><a route-href="route: transmittal-edit; params.bind: {id:transmittal._id}">${transmittal.transmittalDate}</a></td>
+                        <td class="text-right">$${transmittal.transmittalTotal}</td>
+                        <td class="text-right">$${transmittal.chequeTotal}</td>
+                        <td class="text-center">${transmittal.chequeNumber}</td>
+                        <td class="text-center">${transmittal.returnDate}</td>
+                        <td class="text-center">${transmittal.transmittalNumber}</td>
+                        <td>
+                            <a route-href="route: transmittal-edit; params.bind: {id:transmittal._id}" class="btn btn-primary btn-xs" role="button"><i class="fa fa-edit"></i> Edit</a>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</template>

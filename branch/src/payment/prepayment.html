@@ -1,0 +1,56 @@
+<template>
+    <modal showing.bind="showing">
+      <modal-header title="${heading} error" close.call="closeEventGoesHere()"></modal-header>
+      <modal-body content-view="general-error" content-model.bind="error"></modal-body>
+      <modal-footer>
+        <button class="btn btn-primary" click.trigger="saveFunction()">OK</button>
+        <au-button text="Cancel" click.call="cancelEventGoesHere()"></au-button>
+      </modal-footer>
+    </modal>
+    <section class="au-animate">
+        <h2><i class="fa fa-repeat"></i> ${heading} <small>${member.firstName} ${member.lastName}</small></h2>
+
+        <div show.bind="!hasBranchRatesDefined" class="alert alert-danger" role="alert">
+            <h4><i class="fa fa-exclamation-triangle"></i> No branch membership rates.</h4>
+            <p>No membership rates have been defined for the branch yet.</p>
+            <p><a route-href="route: rate-edit;" class="btn btn-danger btn" role="button">Create rates</a></p>
+        </div>
+
+        <form role="form" submit.delegate="save()" validate.bind="validation" >
+            <div class="row">
+                <div class="col-md-2 form-group" id="groupPaymentType">
+                    <label class="control-label" for="payment.paymentType">Payment Type</label>
+                    <p class="form-control-static">${payment.paymentType}</p>
+                </div>
+                <div class="col-md-2 form-group" id="groupYearPaid">
+                    <label class="control-label" for="payment.yearPaid">Year paid</label>
+                    <p class="form-control-static">${payment.yearPaid}</p>
+                </div>
+                <div class="col-md-2 form-group" id="groupDatePaid">
+                    <label class="control-label" for="payment.datePaid">Date paid</label>
+                    <input value.bind="payment.datePaid" type="date" class="form-control" id="datePaid">
+                </div>
+                <div class="col-md-2 form-group" id="groupAmountPaid">
+                    <label class="control-label" for="payment.totalAmountPaid">Amount paid</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input value.bind="payment.totalAmountPaid" type="text" class="form-control" id="totalAmountPaid" placeholder="Amount">
+                    </div>
+                </div>
+                <div class="col-md-2 form-group" id="groupNumberOfYears">
+                    <label class="control-label" for="payment.numberOfYearsPrepaid">Number of years</label>
+                    <input value.bind="payment.numberOfYearsPrepaid" change.delegate="numberOfYearsPrepaidChanged()" type="number" class="form-control" id="numberOfYearsPrepaid">
+                </div>
+                <div class="col-md-2 form-group" id="groupReceiptNumber">
+                    <label class="control-label" for="payment.receiptNumber">Receipt number</label>
+                    <input value.bind="payment.receiptNumber" type="text" class="form-control" id="receiptNumber" placeholder="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <button type="submit" class="btn btn-default" disabled.bind="validation.isValidating">Submit</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</template>
